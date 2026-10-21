@@ -1,0 +1,62 @@
+public class EthCode {
+    
+    // Method to find the length of the longest palindromic substring using Manacher's Algorithm
+    int findLongestPalindromicSubstring(String s) {
+        // Modify the input string to insert '#' between characters
+        String modifiedString = getModifiedString(s);
+        int length = modifiedString.length();
+        
+        // Array to store the lengths of palindromic substrings centered at each position
+        int[] P = new int[length];
+        
+        int center = 0; // Center of the longest palindromic substring found so far
+        int rightBoundary = 0; // Right boundary of the longest palindromic substring found so far
+        int maxLen = 0; // Length of the longest palindromic substring
+        
+        for (int i = 0; i < length; i++) {
+            // Calculate the mirror index of 'i' with respect to the center 'c'
+            int mirror = 2 * center - i;
+            
+            // Check if the mirror of 'i' is within the current longest palindromic substring
+            if (i < rightBoundary) {
+                P[i] = Math.min(rightBoundary - i, P[mirror]);
+            }
+            
+            // Attempt to expand palindrome centered at position 'i'
+            int a = i + (1 + P[i]);
+            int b = i - (1 + P[i]);
+            while (a < length && b >= 0 && modifiedString.charAt(a) == modifiedString.charAt(b)) {
+                P[i]++;
+                a++;
+                b--;
+            }
+            
+            // Update the right boundary and center if the expanded palindrome at 'i' extends beyond it
+            if (i + P[i] > rightBoundary) {
+                center = i;
+                rightBoundary = i + P[i];
+                if (P[i] > maxLen) {
+                    maxLen = P[i];
+                }
+            }
+        }
+        return maxLen;
+    }
+    
+    // Method to modify the input string by inserting '#' between characters
+    String getModifiedString(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            sb.append('#');
+            sb.append(c);
+        }
+        sb.append('#');
+        return sb.toString();
+    }
+    
+    public static void main(String[] args) {
+        EthCode ethCode = new EthCode();
+        String inputString = "inputstring";
+        System.out.println("Length of the longest palindromic substring: " + ethCode.findLongestPalindromicSubstring(inputString));
+    }
+}

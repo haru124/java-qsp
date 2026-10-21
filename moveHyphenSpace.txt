@@ -1,0 +1,33 @@
+class EthCode {
+    static void moveSpaceInFront(char str[]) {
+        // Keep copying non-space characters from the end to the beginning
+        int i = str.length - 1;
+        int count =0;
+        for (int j = i; j >= 0; j--) {
+            if(str[j] == ' ')
+            {
+               count++; 
+            }
+            if (str[j] != ' ' && str[j] != '-') {
+                str[i--] = str[j];
+            }
+        }
+        // Fill the beginning of the array with spaces
+        while (i >= count) {
+            str[i--] = '-';
+        }
+        while (i >= 0) {
+            str[i--] = ' ';
+        }
+        
+    }
+
+    public static void main(String[] args) {
+        // Convert string to character array
+        char str[] = "Code-  4  --lyf".toCharArray();
+        // Call the method to move spaces in front
+        moveSpaceInFront(str);
+        // Convert the character array back to a string and print it
+        System.out.println(String.valueOf(str));
+    }
+}

@@ -1,0 +1,42 @@
+import java.util.HashSet;
+import java.util.Set;
+
+class DistinctPermutations {
+    // Helper method to generate permutations
+    private static void permute(String str, String ans, Set<String> result) {
+        // Base case: if the input string is empty, add the permutation to the result set
+        if (str.length() == 0) {
+            result.add(ans);
+            return;
+        }
+        
+        // Loop through the string and generate permutations by choosing each character one by one
+        for (int i = 0; i < str.length(); i++) {
+            // Take the current character
+            char ch = str.charAt(i);
+            // Create the remaining string after excluding the current character
+            String remaining = str.substring(0, i) + str.substring(i + 1);
+            // Recursive call with the remaining string and the current character added to the answer
+            permute(remaining, ans + ch, result);
+        }
+    }
+
+    // Main method to print all distinct permutations and their count
+    public static void printDistinctPermutations(String str) {
+        Set<String> result = new HashSet<>();
+        permute(str, "", result);
+        
+        // Print all distinct permutations
+        for (String s : result) {
+            System.out.println(s);
+        }
+        
+        // Print the number of distinct permutations
+        System.out.println("Number of distinct permutations: " + result.size());
+    }
+
+    public static void main(String[] args) {
+        String str = "AADAD";
+        printDistinctPermutations(str);
+    }
+}

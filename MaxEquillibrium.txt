@@ -1,0 +1,35 @@
+import java.util.*;
+public class MaxEquillibrium {
+    public static int getMaxEqui(int[] ar,int n)
+    {
+        int asum = Integer.MAX_VALUE;
+        int lsum=ar[0],rsum=0,idx=-1;
+        for(int j=1;j<n;j++)
+                rsum = rsum+ar[j];
+        for(int i =1;i<n-1;i++)
+        {
+            int diff = Math.abs(lsum-rsum);
+            System.out.println(diff);
+            if (asum>diff)
+            {
+                asum = diff;
+                idx = i;
+            }
+            lsum += ar[i];
+            rsum -= ar[i];
+        }
+        return idx;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        //System.out.print("Enter size: ");
+        //int n = sc.nextInt();
+        //int ar[] = new int[n];
+        int []ar = { -2, 5, 3, 2, 1, 2, 6, -4, 2 };
+        int n = ar.length;
+        //for(int i =0;i<n;i++)
+          // ar[i] = sc.nextInt();
+        System.out.println(getMaxEqui(ar,n));
+        sc.close();
+    }
+}

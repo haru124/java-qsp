@@ -1,0 +1,47 @@
+import java.util.*;
+
+class EthCode {
+    // Method to calculate the weight of a subsequence
+    static int calculateWeight(String subsequence, String Q) {
+        int sum = 0;
+        for (char c : subsequence.toCharArray()) {
+            int pos = c - 'a';
+            sum += Q.charAt(pos) - '0';
+        }
+        return sum;
+    }
+
+    // Recursive method to generate all subsequences
+    static void findSubsequences(String P, String Q, int K, int index, String current, Set<String> result) {
+        // Base case: If we've considered all characters
+        if (index == P.length()) {
+            if (!current.isEmpty() && calculateWeight(current, Q) <= K) {
+                result.add(current);
+            }
+            return;
+        }
+
+        // Include the current character
+        findSubsequences(P, Q, K, index + 1, current + P.charAt(index), result);
+
+        // Exclude the current character
+        findSubsequences(P, Q, K, index + 1, current, result);
+    }
+
+    static int distinctSubString(String P, String Q, int K) {
+        Set<String> result = new HashSet<>();
+        findSubsequences(P, Q, K, 0, "", result);
+        System.out.println(result);
+        return result.size();
+    }
+
+    public static void main(String[] args) {
+        // Sample Input
+        String P = "abcde";
+        String Q = "12345678912345678912345678";
+        int K = 5;
+
+        // Print the number of distinct non-contiguous substrings meeting the criteria
+        System.out.println("Number of distinct substrings: " + distinctSubString(P, Q, K));
+    }
+}
